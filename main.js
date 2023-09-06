@@ -173,68 +173,6 @@ mimas.position.x = 8;
 mimas.position.y = 4;
 mimas.position.z = 0;
 
-// ADDING SHOOTING STARS
-
-const shootingStarGeometry = new THREE.BufferGeometry();
-const vertices = new Float32Array(6);
-vertices[0] = 0; vertices[1] = 0; vertices[2] = 0;
-vertices[3] = 0.1; vertices[4] = -0.1; vertices[5] = -1;
-shootingStarGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-const shootingStarMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-
-// Create a group to hold shooting stars
-const shootingStarsGroup = new THREE.Group();
-scene.add(shootingStarsGroup);
-
-// Function to create a new shooting star
-function createShootingStar() {
-  const shootingStar = new THREE.Line(shootingStarGeometry, shootingStarMaterial);
-  shootingStar.position.set(Math.random() * 600 - 10, Math.random() * 500 - 5, -100);
-  shootingStar.scale.set(Math.random(), Math.random(), Math.random());
-  shootingStarsGroup.add(shootingStar);
-}
-
-//UFO
-
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-const loader = new GLTFLoader();
-let mixer; // Animation mixer
-
-loader.load('/public/models/ufo/scene.gltf', (gltf) => {
-  const model = gltf.scene;
-  
-  // Set initial position, rotation, and scale if needed
-  model.position.set(-10, -10, 0);
-  model.rotateZ(1.5);
-
-  //make the model move horizontally using a loop
-
-  function animate() {
-    requestAnimationFrame(animate);
-    model.position.y += 0.01;
-    if (model.position.y > 15) {
-      model.position.y = -10;
-    }
-    
-  }
-  animate();
-
-  model.rotation.set(0, 0, 0);
-  model.scale.set(0.5, 0.5, 0.5);
-
-  scene.add(model);
-
-  // Create the animation mixer
-  mixer = new THREE.AnimationMixer(model);
-
-  // Load all animations and add them to the mixer
-  gltf.animations.forEach((clip) => {
-    mixer.clipAction(clip).play();
-  });
-  
-});
-
 
 //ANIMATE FUNCTION
 
@@ -260,22 +198,11 @@ function animate() {
 
   sun.rotation.y += 0.001;
 
-  if (Math.random() < 0.1) {
-    createShootingStar();
-  }
 
-  // Move and remove shooting stars
-  shootingStarsGroup.children.forEach(shootingStar => {
-    shootingStar.position.z += 0.1;
-    if (shootingStar.position.z > 0) {
-      shootingStarsGroup.remove(shootingStar);
-    }
-  });
 
-  if (mixer) {
-    mixer.update(0.01);
-    
-  }
+  // Move and remove shooting star
+
+
   
 }
 
