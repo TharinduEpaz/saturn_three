@@ -173,7 +173,6 @@ mimas.position.x = 8;
 mimas.position.y = 4;
 mimas.position.z = 0;
 
-
 //ANIMATE FUNCTION
 
 function animate() {
@@ -194,16 +193,10 @@ function animate() {
 
   ring.rotateZ(-0.001);
 
-  
-
   sun.rotation.y += 0.001;
-
-
 
   // Move and remove shooting star
 
-
-  
 }
 
 renderer.setAnimationLoop(animate);
